@@ -1,7 +1,11 @@
 import React, { useEffect } from 'react';
-import './App.css';
-import cityApi from './api/cityApi';
 import { Route, Switch } from 'react-router-dom';
+import cityApi from './api/cityApi';
+import './App.css';
+import { AuthRoute, PrivateRoute } from './HOCs/Routes';
+import Admin from './views/Admin';
+import Login from './views/Login';
+import NotFound from './views/NotFound';
 
 const App = () => {
     useEffect(() => {
@@ -19,9 +23,9 @@ const App = () => {
     return (
         <div>
             <Switch>
-                <Route path="/login" />
-                <Route path="/admin" />
-                <Route path="*" />
+                <AuthRoute path="/login" component={Login} redirectPath="/admin" />
+                <PrivateRoute path="/admin" component={Admin} redirectPath="/login" />
+                <Route path="*" component={NotFound} />
             </Switch>
         </div>
     );
